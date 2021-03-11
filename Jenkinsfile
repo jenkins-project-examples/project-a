@@ -7,10 +7,10 @@ pipeline {
         stage('Hello') {
             steps {
                 echo 'Hello World'
-//                sh "pid=\$(lsof -i:3333 -t); kill -TERM \$pid || kill -KILL \$pid"
-                script{
+                sh "pid=\$(lsof -i:3333 -t); kill -TERM \$pid || kill -KILL \$pid"
+                script {
                     withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                        sh './mvnw spring-boot:run -Dserver.port=3333'
+                        sh 'nohup ./mvnw spring-boot:run -Dserver.port=3333 &'
                     }
                 }
 
